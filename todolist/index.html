@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Bitcount+Prop+Single+Ink:wght@100..900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Dancing+Script:wght@400..700&family=Georama:ital,wght@0,100..900;1,100..900&family=Mouse+Memoirs&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playwrite+AU+TAS:wght@100..400&family=Playwrite+DE+SAS:wght@100..400&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Schoolbell&family=Share+Tech&family=Smooch+Sans:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Task completed successfully!</span>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-sparkles"></i>
+                </div>
+                <h1>Planner</h1>
+            </div>
+            
+            <div class="nav-item active" data-view="year">
+                <i class="fas fa-calendar"></i>
+                <span>Year View</span>
+            </div>
+            
+            <div class="nav-item" data-view="month">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Month View</span>
+            </div>
+            
+            <div class="nav-item" data-view="week">
+                <i class="fas fa-calendar-week"></i>
+                <span>Week View</span>
+            </div>
+            
+            <div class="nav-item" data-view="day">
+                <i class="fas fa-calendar-day"></i>
+                <span>Day View</span>
+            </div>
+            
+            <div class="nav-item" data-view="notes">
+                <i class="fas fa-sticky-note"></i>
+                <span>Notes</span>
+            </div>
+            
+            <div class="theme-toggle" id="themeToggle">
+                <div class="theme-toggle-text">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </div>
+                <div class="toggle-switch"></div>
+            </div>
+            
+            <div class="progress-section">
+                <div class="progress-title">
+                    <span>Monthly Progress</span>
+                    <span id="progressPercentage">65%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-stats">
+                    <div id="progressStats"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="header">
+                <h2 id="viewTitle">Year Planner</h2>
+                <div class="breadcrumb" id="breadcrumb">
+                    <div class="breadcrumb-item" data-level="year">Year</div>
+                </div>
+            </div>
+            
+            <div class="year-selection" id="yearSelection" style="display: none;">
+                <div class="year-select-label">Select Year:</div>
+                <select class="year-select" id="yearSelect">
+                </select>
+            </div>
+            
+            <div class="view-controls">
+                <button class="view-btn active" data-view="year">
+                    <i class="fas fa-calendar"></i>
+                    Year
+                </button>
+                <button class="view-btn" data-view="month">
+                    <i class="fas fa-calendar-alt"></i>
+                    Month
+                </button>
+                <button class="view-btn" data-view="week">
+                    <i class="fas fa-calendar-week"></i>
+                    Week
+                </button>
+                <button class="view-btn" data-view="day">
+                    <i class="fas fa-calendar-day"></i>
+                    Day
+                </button>
+                <button class="view-btn" data-view="notes">
+                    <i class="fas fa-sticky-note"></i>
+                    Notes
+                </button>
+            </div>
+            
+            <div class="content-area" id="contentArea">
+                <div class="year-view" id="yearView">
+                </div>
+                                <div class="month-detail-view" id="monthDetailView" style="display: none;">
+                    <div class="month-header">
+                        <div class="month-navigation">
+                            <button class="nav-btn" id="prevMonth">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <div class="current-month" id="currentMonth"></div>
+                            <button class="nav-btn" id="nextMonth">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <button class="add-goal-btn" id="addGoalBtn">
+                            <i class="fas fa-plus"></i>
+                            Add Week Goal
+                        </button>
+                    </div>
+                    <div class="weeks-container" id="weeksContainer">
+                    </div>
+                </div>
+                
+                <div class="week-detail-view" id="weekDetailView" style="display: none;">
+                    <div class="week-detail-header">
+                        <div class="week-detail-title" id="weekDetailTitle"></div>
+                        <button class="add-task-btn" id="addTaskBtn">
+                            <i class="fas fa-plus"></i>
+                            Add Task
+                        </button>
+                    </div>
+                    <div class="days-container" id="daysContainer">
+                        <!-- Day cards will be dynamically added here -->
+                    </div>
+                </div>
+                
+                <div class="day-detail-view" id="dayDetailView" style="display: none;">
+                    <div class="day-schedule">
+                        <div class="day-detail-header">
+                            <h3 id="dayDetailTitle" >Today's Schedule</h3>
+                            <button class="add-task-btn" id="addDayTaskBtn">
+                                <i class="fas fa-plus"></i>
+                                Add Task
+                            </button>
+                        </div>
+                        <div class="time-slots" id="dayTimeSlots">
+                        </div>
+                    </div>
+                    
+                    <div class="pomodoro-section">
+                        <div class="timer-display" id="timerDisplay">25:00</div>
+                        <div class="timer-controls">
+                            <button class="timer-btn start-btn" id="startBtn">
+                                <i class="fas fa-play"></i>
+                                Start
+                            </button>
+                            <button class="timer-btn pause-btn" id="pauseBtn">
+                                <i class="fas fa-pause"></i>
+                                Pause
+                            </button>
+                            <button class="timer-btn reset-btn" id="resetBtn">
+                                <i class="fas fa-redo"></i>
+                                Reset
+                            </button>
+                        </div>
+                        <div class="timer-modes">
+                            <button class="mode-btn active" data-mode="pomodoro">Pomodoro</button>
+                            <button class="mode-btn" data-mode="shortBreak">Short Break</button>
+                            <button class="mode-btn" data-mode="longBreak">Long Break</button>
+                        </div>
+                        <div class="pomodoro-stats">
+                            <p><span>Completed Pomodoros:</span> <span id="pomodoroCount">3</span></p>
+                            <p><span>Focus Time:</span> <span id="focusTime">1h 15m</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="notes-view" id="notesView" style="display: none;">
+                    <div class="notes-header">
+                        <div class="notes-title">My Notes</div>
+                        <button class="add-note-btn" id="addNoteBtn">
+                            <i class="fas fa-plus"></i>
+                            Add Note
+                        </button>
+                    </div>
+                    <div class="notes-container" id="notesContainer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="goalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="goalModalTitle">Add Week Goal</div>
+                <button class="close-modal" id="closeGoalModal">&times;</button>
+            </div>
+            <form id="goalForm">
+                <input type="hidden" id="goalId">
+                <input type="hidden" id="goalWeek">
+                <div class="form-group">
+                    <label class="form-label">Goal Description</label>
+                    <input type="text" class="form-input" id="goalDescription" placeholder="Enter your goal for this week" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Priority</label>
+                    <select class="form-select" id="goalPriority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelGoalBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveGoalBtn">Add Goal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="taskModalTitle">Add New Task</div>
+                <button class="close-modal" id="closeTaskModal">&times;</button>
+            </div>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                <input type="hidden" id="taskDay">
+                <div class="form-group">
+                    <label class="form-label">Task Title</label>
+                    <input type="text" class="form-input" id="taskTitle" placeholder="Enter task title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-textarea" id="taskDescription" placeholder="Enter task description"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Due Time</label>
+                    <input type="time" class="form-input" id="taskDueTime">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Priority</label>
+                    <select class="form-select" id="taskPriority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" id="taskCategory">
+                        <option value="work">Work</option>
+                        <option value="personal">Personal</option>
+                        <option value="health">Health</option>
+                        <option value="learning">Learning</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Estimated Duration (minutes)</label>
+                    <input type="number" class="form-input" id="taskDuration" placeholder="e.g., 30">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelTaskBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveTaskBtn">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Note Modal -->
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="noteModalTitle">Add New Note</div>
+                <button class="close-modal" id="closeNoteModal">&times;</button>
+            </div>
+            <form id="noteForm">
+                <input type="hidden" id="noteId">
+                <div class="form-group">
+                    <label class="form-label">Note Title</label>
+                    <input type="text" class="form-input" id="noteTitle" placeholder="Enter note title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Content</label>
+                    <textarea class="form-textarea" id="noteContent" placeholder="Enter your note content" rows="10"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelNoteBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveNoteBtn">Save Note</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="todo.js"></script>
+
+</html>
